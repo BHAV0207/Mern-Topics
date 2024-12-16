@@ -1,5 +1,5 @@
 const express = require('express');
-const bycript =  require('bcrpytjs');
+const bcrypt =  require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../Models/User');
 
@@ -40,7 +40,7 @@ router.post('/login', async (req ,res) => {
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
     const pass = await bcrypt.compare(password , user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    if (!pass) return res.status(400).json({ message: "Invalid credentials" });
 
     const token = jwt.sign({id : user.id} , process.env.JWT_SECRET , {expiresIn : '1h'} )
     res.status(200).json({ token });
