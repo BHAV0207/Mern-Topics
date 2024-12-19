@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -11,7 +13,7 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await axios.post("http://localhost:4000/api/auth/login", {
         email,
         password,
       });
@@ -55,6 +57,17 @@ function LoginPage() {
         >
           Login
         </button>
+        <div className="mt-6 text-center">
+          <p className="text-gray-600">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="text-blue-500 font-medium hover:underline"
+            >
+              Register here
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );
