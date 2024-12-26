@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="parent">
+      <div id="child">
+        <button id="myButton">Click Me</button>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    const parent = document.getElementById("parent");
+    const child = document.getElementById("child");
+    const button = document.getElementById("myButton");
+
+    parent.addEventListener(
+      "click",
+      (event) => {
+        console.log("Parent (Capturing Phase)");
+      },
+      true
+    );
+
+    child.addEventListener(
+      "click",
+      (event) => {
+        console.log("Child (Capturing Phase)");
+      },
+      true
+    );
+
+    parent.addEventListener(
+      "click",
+      (event) => {
+        console.log("Parent (Bubbling Phase)");
+      },
+      false
+    );
+
+    child.addEventListener(
+      "click",
+      (event) => {
+        console.log("Child (Bubbling Phase)");
+      },
+      false
+    );
+
+    button.addEventListener("click", (event) => {
+      console.log("Button Clicked!");
+    });
+  </script>
+</html>
