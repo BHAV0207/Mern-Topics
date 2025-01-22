@@ -4,7 +4,7 @@ import { createContext } from "react";
 export const CounterContext = createContext();
 
 export const CounterProvider = ({ children }) => {
-  let [count, setCount] = useState(0); // Initialize count with 0
+  let [count, setCount] = useState(0);
 
   const increment = () => setCount((prevCount) => prevCount + 1);
   const decrement = () => setCount((prevCount) => prevCount - 1);
