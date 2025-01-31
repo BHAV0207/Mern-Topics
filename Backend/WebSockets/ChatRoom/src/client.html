@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat with Rooms</title>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>WebSocket Chat</h1>
+
+    <label>Enter your username:</label>
+    <input id="usernameInput" type="text" placeholder="Enter username">
+    <button onclick="registerUser()">Register</button>
+
+    <h2>Join a Room</h2>
+    <input id="roomInput" type="text" placeholder="Room name">
+    <button onclick="joinRoom()">Join Room</button>
+
+    <h2>Send Message to Room</h2>
+    <input id="roomMessageInput" type="text" placeholder="Message">
+    <button onclick="sendMessageToRoom()">Send to Room</button>
+
+    <h2>Private Message</h2>
+    <input id="recipientInput" type="text" placeholder="Recipient ID">
+    <input id="privateMessageInput" type="text" placeholder="Message">
+    <button onclick="sendPrivateMessage()">Send Private</button>
+
+    <h2>Messages</h2>
+    <ul id="messages"></ul>
+
+    <script>
+        const socket = io("http://localhost:3000");
+
+        socket.on("connect", () => {
+            console.log("✅ Connected to WebSocket Server");
+        });
+
+        function registerUser() {
+            const username = document.getElementById("usernameInput").value;
+            socket.emit("registerUser", username);
+            console.log("🆕 User registered:", username);
+        }
+
+        function joinRoom() {
+            const room = document.getElementById("roomInput").value;
+            socket.emit("joinRoom", room);
+            console.log("👥 Joined room:", room);
+        }
+
+        function sendMessageToRoom() {
+            const room = document.getElementById("roomInput").value;
+            const message = document.getElementById("roomMessageInput").value;
+            socket.emit("sendMessageToRoom", { roomName: room, message });
+        }
+
+        function sendPrivateMessage() {
+            const recipient = document.getElementById("recipientInput").value;
+            const message = document.getElementById("privateMessageInput").value;
+            socket.emit("privateMessage", { recipientId: recipient, message });
+        }
+
+        socket.on("message", (data) => {
+            console.log("📢 Room message received:", data);
+            const li = document.createElement("li");
+            li.textContent = `Room Message: ${data.message}`;
+            document.getElementById("messages").appendChild(li);
+        });
+
+        socket.on("privateMessage", (data) => {
+            console.log("📩 Private message received:", data);
+            const li = document.createElement("li");
+            li.textContent = `Private from ${data.sender}: ${data.message}`;
+            document.getElementById("messages").appendChild(li);
+        });
+
+        socket.on("disconnect", () => {
+            console.log("❌ Disconnected from server");
+        });
+    </script>
+</body>
+</html>
