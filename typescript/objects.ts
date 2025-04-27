@@ -57,7 +57,7 @@ let myUser2 : user2 = {
 }
 
 myUser2.salary = 2000;
-myUser2._id = 2; // here we are trying to change the value of the readonly property and ts will throw an error
+// myUser2._id = 2; // here we are trying to change the value of the readonly property and ts will throw an error
 
 
 //  here we are creating a new object that is extending the user2 object and adding new properties to it 
